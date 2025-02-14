@@ -25,11 +25,11 @@ public class Pathway_Test extends LinearOpMode{
     @Override
     public void runOpMode() {
         // instantiate your MecanumDrive at a particular pose.
-        Pose2d initialPose = new Pose2d(11.8, 61.7, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(9, -63.5, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // actionBuilder builds from the drive steps passed to it
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(44.5, 30))
+                .splineTo(new Vector2d(24, -12),Math.toRadians(0))
                 .waitSeconds(3);
         Actions.runBlocking(
                 new SequentialAction(
