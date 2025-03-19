@@ -16,9 +16,9 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(9, -63.5, Math.toRadians(90)))
-                .lineToY(-50)
+                .lineToY(-55)
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(50,-20,Math.toRadians(-90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(55,-20,Math.toRadians(-90)), Math.toRadians(90))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)
