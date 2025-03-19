@@ -65,14 +65,16 @@ public class Pathway_Test extends LinearOpMode{
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // actionBuilder builds from the drive steps passed to it
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .lineToY(-50)
-                .setTangent(0)
-                .splineToLinearHeading(new Pose2d(50,-20,Math.toRadians(-90)), Math.toRadians(90));
+                .splineToConstantHeading(new Vector2d(9,-36), Math.toRadians(90))
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(30,-40), Math.toRadians(0))
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(35,-10), Math.toRadians(90))
+                .strafeToConstantHeading(new Vector2d(47,-12))
+                .strafeToConstantHeading(new Vector2d(47,-60));
                 //.waitSeconds(3);
         waitForStart();
-        ArmR.setPower(0.5);
-        ArmL.setPower(0.5);
-        sleep(500);
+
         Actions.runBlocking(
                 new SequentialAction(
                         tab1.build()
