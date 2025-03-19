@@ -29,8 +29,11 @@ public class Pathway_Test extends LinearOpMode{
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // actionBuilder builds from the drive steps passed to it
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .splineToConstantHeading(new Vector2d(48, -24),Math.toRadians(90))
-                .waitSeconds(3);
+                .lineToY(-50)
+                .setTangent(0)
+                .splineToLinearHeading(new Pose2d(50,-20,Math.toRadians(-90)), Math.toRadians(90));
+                //.waitSeconds(3);
+        waitForStart();
         Actions.runBlocking(
                 new SequentialAction(
                         tab1.build()
