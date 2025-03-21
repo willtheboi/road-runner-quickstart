@@ -22,62 +22,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import org.firstinspires.ftc.teamcode.ArmActions;
 @Autonomous(name = "Pathway_Test", group = "Autonomous")
 public class Pathway_Test extends LinearOpMode{
-    private DcMotor ArmR     = null;
-    private DcMotor ArmL     = null;
-    private CRServo Intake   = null;
-    private CRServo WristR   = null;
-    private CRServo WristL   = null;
-    private DcMotor SlideR   = null;
-    private DcMotor SlideL   = null;
+
     @Override
     public void runOpMode() {
-        ArmR    = hardwareMap.get(DcMotor.class, "ArmR");
-        ArmL    = hardwareMap.get(DcMotor.class, "ArmR");
-        Intake      = hardwareMap.get(CRServo.class, "Intake");
-        WristR      = hardwareMap.get(CRServo.class, "WristR");
-        WristL      = hardwareMap.get(CRServo.class, "WristL");
-        SlideR      = hardwareMap.get(DcMotor.class, "SlideR");
-        SlideL      = hardwareMap.get(DcMotor.class, "SlideL");
 
-        ArmL.setDirection(DcMotor.Direction.FORWARD);
-        ArmR.setDirection(DcMotor.Direction.REVERSE);
-        SlideL.setDirection(DcMotor.Direction.REVERSE);
-        SlideR.setDirection(DcMotor.Direction.FORWARD);
-
-        ArmR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ArmL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        SlideR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        SlideL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        ArmR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ArmL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        SlideR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        SlideL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        ArmR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        ArmL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        SlideR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        SlideL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // instantiate your MecanumDrive at a particular pose.
         Pose2d initialPose = new Pose2d(9, -63.5, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
+        ArmActions armActions = new ArmActions(hardwareMap);
         // actionBuilder builds from the drive steps passed to it
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .splineToConstantHeading(new Vector2d(9,-36), Math.toRadians(90))
-                .setTangent(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(30,-40), Math.toRadians(0))
-                .setTangent(Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(35,-10), Math.toRadians(90))
-                .strafeToConstantHeading(new Vector2d(47,-12))
-                .strafeToConstantHeading(new Vector2d(47,-60));
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose);
+
                 //.waitSeconds(3);
         waitForStart();
 
         Actions.runBlocking(
                 new SequentialAction(
-                        tab1.build()
+                        armActions.chamberArm(),
+                        armActions.wallArm()
                 )
         );
     }
