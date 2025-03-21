@@ -34,16 +34,35 @@ public class Pathway_Test extends LinearOpMode{
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         ArmActions armActions = new ArmActions(hardwareMap);
         // actionBuilder builds from the drive steps passed to it
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose);
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-27, -53, Math.toRadians(235)), Math.toRadians(225));
 
                 //.waitSeconds(3);
+        TrajectoryActionBuilder tab2 = drive.actionBuilder(initialPose)
+                //.setTangent(Math.toRadians(225))
+                .strafeToConstantHeading(new Vector2d(-35, -61))
+                .waitSeconds(2);
+
         waitForStart();
+
+        if (isStopRequested()) return;
+
+        Action trajectory_1;
+        Action trajectory_2;
+
+        trajectory_1 = tab1.build();
+        trajectory_2 = tab2.build();
+
 
         Actions.runBlocking(
                 new SequentialAction(
+                        trajectory_1,
                         armActions.chamberArm(),
-                        armActions.wallArm()
+                        trajectory_2
                 )
+
+
         );
     }
 }

@@ -10,7 +10,7 @@ import com.acmerobotics.roadrunner.Action;
 
 public class ArmActions {
 
-    public DcMotor     ArmR        = null;
+    public DcMotor     ArmR       = null;
     public DcMotor     ArmL       = null;
     public DcMotor     SlideR     = null;
     public DcMotor     SlideL     = null;
@@ -60,7 +60,7 @@ public class ArmActions {
 
                 double pos = ArmR.getCurrentPosition();
                 packet.put("chamberPos", pos);
-                if (pos < 1000) {
+                if (pos < 1200) {
                     return true;
                 } else {
                     ArmR.setPower(0);
