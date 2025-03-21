@@ -3,6 +3,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.acmerobotics.roadrunner.Action;
@@ -58,7 +59,7 @@ public class ArmActions {
                 }
 
                 double pos = ArmR.getCurrentPosition();
-                packet.put("liftPos", pos);
+                packet.put("chamberPos", pos);
                 if (pos < 1000) {
                     return true;
                 } else {
@@ -84,7 +85,7 @@ public class ArmActions {
                 }
 
                 double pos = ArmR.getCurrentPosition();
-                packet.put("liftPos", pos);
+                packet.put("wallPos", pos);
                 if (pos > 400) {
                     return true;
                 } else {
@@ -92,6 +93,45 @@ public class ArmActions {
                     ArmL.setPower(0);
                     return false;
                 }
+            }
+        };
+    }
+    public Action onIntake() {
+        return new Action() {
+            private boolean initialized;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    Intake.setPower(1);
+                }
+                return initialized;
+            }
+        };
+    }
+    public Action offIntake() {
+        return new Action() {
+            private boolean initialized;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    Intake.setPower(0);
+                }
+                return initialized;
+            }
+        };
+    }
+    public Action onOuttake() {
+        return new Action() {
+            private boolean initialized;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    Intake.setPower(-1);
+                }
+                return initialized;
             }
         };
     }
