@@ -148,5 +148,18 @@ public class ArmActions {
             }
         };
     }
+    public Action wallWrist() {
+        return new Action() {
+            private boolean initialized;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    WristL.setPosition(0.75);
+                }
+                return initialized;
+            }
+        };
+    }
 
 }
