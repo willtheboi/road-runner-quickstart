@@ -46,7 +46,7 @@ public class RSpecAutoRR extends LinearOpMode{
 
         Actions.runBlocking(
                 new SequentialAction(
-                        //arm up
+                        armActions.chamberArm()
                         //spline to chamber
                         //slide out
                         //wrist to chamber position
