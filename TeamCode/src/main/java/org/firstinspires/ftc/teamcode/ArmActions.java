@@ -15,15 +15,15 @@ public class ArmActions {
     public DcMotor     SlideR     = null;
     public DcMotor     SlideL     = null;
     public CRServo     Intake     = null;
-    public CRServo     WristR     = null;
-    public CRServo     WristL     = null;
+    public Servo     WristR     = null;
+    public Servo     WristL     = null;
 
     public ArmActions(HardwareMap hardwareMap) {
         ArmR = hardwareMap.get(DcMotor.class, "ArmR");
         ArmL = hardwareMap.get(DcMotor.class, "ArmL");
         Intake = hardwareMap.get(CRServo.class, "Intake");
-        WristR = hardwareMap.get(CRServo.class, "WristR");
-        WristL = hardwareMap.get(CRServo.class, "WristL");
+        WristR = hardwareMap.get(Servo.class, "WristR");
+        WristL = hardwareMap.get(Servo.class, "WristL");
         SlideR = hardwareMap.get(DcMotor.class, "SlideR");
         SlideL = hardwareMap.get(DcMotor.class, "SlideL");
 
@@ -130,6 +130,19 @@ public class ArmActions {
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
                     Intake.setPower(-1);
+                }
+                return initialized;
+            }
+        };
+    }
+    public Action chamberWrist() {
+        return new Action() {
+            private boolean initialized;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    WristL.setPosition(0.6);
                 }
                 return initialized;
             }
