@@ -57,8 +57,8 @@ public class Pathway_Test extends LinearOpMode{
 
         Actions.runBlocking(
                 new SequentialAction(
+                        armActions.chamberArm(),
                         trajectory_1
-
                 )
 
 
